@@ -139,9 +139,7 @@
                             $wrapper.find('.t-team-list-wrapper').prepend($parent);
                         }
 
-                        $R("#forward-wrapper-{$ident} .t-redactor-comments", {
-                            focus: true,
-                        });
+                        var mdEditor = new MdEditor('#forward-wrapper-{$ident} .t-redactor-comments');
 
                     })(jQuery);
                 </script>

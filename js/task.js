@@ -991,8 +991,8 @@ var Task = ( function($) {
         var onAllDone = typeof callbacks.onAllDone === 'function' ? callbacks.onAllDone : null;
 
         var bindEvents = function() {
-            
-            $R('.t-redactor-comments');
+
+            var mdEditor = new MdEditor('.t-redactor-comments');
             
             $commentForm.on("submit", function() {
                 clearCommentErrors();
