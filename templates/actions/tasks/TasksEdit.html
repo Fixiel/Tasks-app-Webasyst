@@ -12,7 +12,7 @@
 
     {$_files_hash = md5(uniqid($task.name, true))}
 
-    var mdEditor = new MdEditor('.t-redactor-task-edit');
+    mdeditor('.t-redactor-task-edit', { 'focus': true });
 
     window.taskEdit = new TaskEdit({
         $task: $(".t-task-page-wrapper"),

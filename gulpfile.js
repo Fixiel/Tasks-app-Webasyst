@@ -14,6 +14,10 @@ const stylus = require('gulp-stylus');
 const autoprefixer = require('gulp-autoprefixer');
 const concat = require('gulp-concat');
 const nib = require('nib');
+const rollup = require('rollup');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const json = require('@rollup/plugin-json');
 
 // options for uglify `compress`
 const compressOptions = {
@@ -21,6 +25,29 @@ const compressOptions = {
         return result || (arg === '--debugger');
     }, false)
 };
+
+// mdeditor Redactor wrapper
+
+function mdeditor () {
+    return rollup.rollup({
+        input: 'js/vendors/mdeditor/src/mdeditor.js',
+        plugins: [
+            commonjs({
+                transformMixedEsModules: true
+            }),
+            nodeResolve({
+                browser: true,
+            }),
+            json(),
+        ]
+    }).then(bundle => {
+        return bundle.write({
+            file: './js/vendors/mdeditor/mdeditor.js',
+            format: 'umd',
+            name: 'mdeditor',
+        });
+    });
+}
 
 // JS function 
 
@@ -49,7 +76,7 @@ function js () {
         'js/settings/scopeEdit.js'
     ]
 
-    return src(source, {allowEmpty: true})
+    return src(source, { allowEmpty: true })
         .pipe(sourcemaps.init())
         .pipe(concat('tasks.js'))
         .pipe(uglify({
@@ -96,6 +123,7 @@ function css () {
 function watchFiles () {
     watch('css/**/*.styl', css);
     watch(['js/*.js', 'js/**/*.js', '!js/tasks.min.js'], js);
+    watch(['js/vendors/mdeditor/src/mdeditor.js'], mdeditor);
 }
 
 exports.watch = watchFiles;

@@ -992,7 +992,7 @@ var Task = ( function($) {
 
         var bindEvents = function() {
 
-            var mdEditor = new MdEditor('.t-redactor-comments');
+            mdeditor('.t-redactor-comments');
             
             $commentForm.on("submit", function() {
                 clearCommentErrors();
