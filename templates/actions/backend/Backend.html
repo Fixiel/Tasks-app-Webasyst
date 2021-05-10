@@ -16,9 +16,11 @@
     
     <script src="{$wa_app_static_url}js/vendors/redactor-3-4-11/redactor.min.js"></script>
     <script src="{$wa_app_static_url}js/vendors/redactor-3-4-11/langs/{$loc[0]}.js"></script>
+    <script src="{$wa_app_static_url}js/vendors/redactor-3-4-11/plugins/mdCodeButtons.js"></script>
     <script>
         $R.options = {
-            lang: '{$loc[0]}'
+            lang: '{$loc[0]}',
+            plugins: ['mdCodeButtons']
         };
     </script>
     <script src="{$wa_app_static_url}js/vendors/mdeditor/mdeditor.js"></script>
