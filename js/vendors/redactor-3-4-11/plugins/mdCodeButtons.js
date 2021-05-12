@@ -1,65 +1,48 @@
-(function($R)
-{
-   $R.add('plugin', 'mdCodeButtons', {
-        translations: {
-            en: {
-                "codeString": "Code String",
-                "codeBlock": "Code Block",
-                "clear": "Clear"
-            },
-            ru: {
-                "codeString": "Код строка",
-                "codeBlock": "Код блок",
-                "clear": "Очистить"
-            }
+(function ($R) {
+  $R.add("plugin", "mdCodeButtons", {
+    init: function (app) {
+      this.app = app;
+
+      // define toolbar service
+      this.toolbar = app.toolbar;
+    },
+    start: function () {
+      // set up buttons
+      var buttonCode = {
+        title: "## code ##",
+        icon: true,
+        api: "plugin.mdCodeButtons.toggleCode",
+      };
+
+      var buttonQuote = {
+        title: "## quote ##",
+        icon: true,
+        api: "module.block.format",
+        args: {
+          tag: "blockquote",
         },
-        init: function(app)
-        {
-            this.app = app;
+      };
 
-            // define toolbar service
-            this.toolbar = app.toolbar;
-        },
-        start: function()
-        {
-            // set up the button
-            var buttonCode = {
-                title: '## codeString ##',
-                api: 'module.inline.format',
-                args: {
-                    tag: 'code'
-                }
-            };
-
-            var buttonCodePre = {
-                title: '## codeBlock ##',
-                api: 'module.block.format',
-                args: {
-                    tag: 'pre'
-                }
-            };
-
-            var buttonQuote = {
-                title: '## quote ##',
-                api: 'module.block.format',
-                args: {
-                    tag: 'blockquote'
-                }
-            };
-
-            var resetStyles = {
-                title: '## clear ##',
-                api: 'module.block.format',
-                args: {
-                    tag: 'p'
-                }
-            };
-
-            // add the button to the toolbar
-            this.toolbar.addButton('buttonCode', buttonCode);
-            this.toolbar.addButton('buttonCodePre', buttonCodePre);
-            this.toolbar.addButton('buttonQuote', buttonQuote);
-            this.toolbar.addButton('resetStyles', resetStyles);
-        },
-    });
+      // add buttons to the toolbar
+      this.toolbar.addButton("html", buttonCode);
+      this.toolbar.addButton("quote", buttonQuote);
+    },
+    toggleCode: function () {
+      switch (this.app.selection.getElement().nodeName) {
+        case "PRE": // clear code block
+          this.app.block.format("pre");
+          break;
+        case "CODE": // clear code string
+          this.app.inline.clearFormat();
+          break;
+        default:
+          // string or block selected
+          if (this.app.selection.isAll(this.app.selection.getElement())) {
+            this.app.block.format("pre");
+          } else {
+            this.app.inline.format("code");
+          }
+      }
+    },
+  });
 })(Redactor);

@@ -17,12 +17,16 @@
     <script src="{$wa_app_static_url}js/vendors/redactor-3-4-11/redactor.min.js"></script>
     <script src="{$wa_app_static_url}js/vendors/redactor-3-4-11/langs/{$loc[0]}.js"></script>
     <script src="{$wa_app_static_url}js/vendors/redactor-3-4-11/plugins/mdCodeButtons.js"></script>
+    <script src="{$wa_app_static_url}js/vendors/redactor-3-4-11/plugins/handle/handle.js"></script>
     <script>
         $R.options = {
             lang: '{$loc[0]}',
-            plugins: ['mdCodeButtons']
+            plugins: ['mdCodeButtons', 'handle'],
+            handle: '?action=tagsatcmpl',
+            handleTrigger: '#',
         };
     </script>
+    
     <script src="{$wa_app_static_url}js/vendors/mdeditor/mdeditor.js"></script>
 
     <script src="{$wa_app_static_url}js/tasks.js?v{$wa->version()}"></script>
@@ -40,6 +44,7 @@
     <link rel="stylesheet" href="{$wa_app_static_url}js/waGallery/waGallery.css" type="text/css" />
     <link rel="stylesheet" href="{$wa_url}wa-content/js/prettify/prettify.css" type="text/css" />
     <link rel="stylesheet" href="{$wa_app_static_url}js/vendors/redactor-3-4-11/redactor.min.css" type="text/css" />
+    <link rel="stylesheet" href="{$wa_app_static_url}js/vendors/redactor-3-4-11/plugins/handle/handle.css" type="text/css" />
 
     <script src="{$wa_url}wa-content/js/jquery/jquery-1.11.1.min.js"></script>
     <script src="{$wa_url}wa-content/js/jquery/jquery-migrate-1.2.1.min.js" async></script>
@@ -47,6 +52,33 @@
 
     <script src="/wa-content/js/jquery-wa/wa.js?v={$wa->version(true)}"></script>
     <script src="{$wa_app_static_url}js/tasks.min.js?v{$wa->version()}"></script>
+
+    <style>
+        .re-button.re-quote {
+            padding-bottom: 0 !important;
+            padding-top: 15px !important;
+        }
+        /* .re-icon-quote {
+            margin-top: 15px;
+        } */
+        .re-icon-quote::after {
+            content: '”';
+            font-size: 26px;
+            line-height: 0;
+            font-weight: bolder;
+        }
+
+        .redactor-styles blockquote {
+            color: var(--text-color);
+            padding: 1.5em 2em;
+            background: var(--background-color-blockquote);
+            margin: 0 0 1rem;
+        }
+
+        .redactor-styles blockquote p {
+            margin-bottom: 0;
+        }
+    </style>
 
     {$wa->js()}
     {if $wa->locale() != 'en_US'}
